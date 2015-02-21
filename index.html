@@ -22,7 +22,7 @@
     <div id="wrapper">
 
       <div class="input-group-lg">
-        <input type="text" id="searchbar" onkeypress="search(event)" class="form-control" placeholder="Enter the keyword and hit ENTER" aria-describedby="sizing-addon1">
+        <input type="text" id="searchbar" class="form-control" placeholder="Enter the keyword and hit ENTER" aria-describedby="sizing-addon1">
       </div>
       
       <div id="output"></div>
@@ -37,6 +37,38 @@
         var output = document.querySelector("#output");
         var searchbar = document.querySelector("#searchbar");
         var url = "https://www.googleapis.com/books/v1/volumes?q="+name;
+        
+        searchbar.onkeypress = search;
+
+        /* -----------SET AND GET COOKIE FUNCTIONS----------- */
+        function setCookie(cname, cvalue, exdays) {
+          var d = new Date();
+          d.setTime(d.getTime() + (exdays*24*60*60*1000));
+          var expires = "expires="+d.toUTCString();
+          document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
+        function getCookie(cname) {
+          var name = cname + "=";
+          var ca = document.cookie.split(';');
+          for(var i=0; i<ca.length; i++) {
+              var c = ca[i];
+              while (c.charAt(0)==' ') c = c.substring(1);
+              if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+          }
+          return "";
+        }
+        function checkCookie() {
+          var user = getCookie("username");
+          if (user != "") {
+              alert("Welcome again " + user);
+          } else {
+              user = prompt("Please enter your name:", "");
+              if (user != "" && user != null) {
+                  setCookie("username", user, 365);
+              }
+          }
+        }
+        /* -----------SET AND GET COOKIE FUNCTIONS----------- */
 
         function search(event){
             if(event.which === 13 || event.keyCode === 13){
@@ -65,7 +97,8 @@
             if(item.volumeInfo.subtitle !== undefined) content += '<h5 class="media-heading">'+item.volumeInfo.subtitle+'</h5>';
             if(item.volumeInfo.description !== undefined) content += item.volumeInfo.description;
             content += '</div></div>';
-            if(item.volumeInfo.industryIdentifiers) content += '<a href="http://www.amazon.com/gp/search/ref=sr_adv_b/?search-alias=stripbooks&unfiltered=1&field-keywords=&field-author=&field-title=&field-isbn='+item.volumeInfo.industryIdentifiers[0].identifier+'&field-publisher=&node=&field-p_n_condition-type=&field-feature_browse-bin=&field-subject=&field-language=&field-dateop=During&field-datemod=&field-dateyear=&sort=relevanceexprank&Adv-Srch-Books-Submit.x=46&Adv-Srch-Books-Submit.y=21" title="" target="_blank"><button type="button" class="btn btn-warning">Go Amazon</button></a>';
+            if(item.volumeInfo.industryIdentifiers) content += '<br /><a href="http://www.amazon.com/gp/search/ref=sr_adv_b/?search-alias=stripbooks&unfiltered=1&field-isbn='+item.volumeInfo.industryIdentifiers[0].identifier+'&sort=relevanceexprank&Adv-Srch-Books-Submit.x=46&Adv-Srch-Books-Submit.y=21" title="" target="_blank"><button type="button" class="btn btn-warning">Go Amazon</button></a>';
+            content += ' <a href="'+item.volumeInfo.previewLink+'" title="" target="_blank"><button type="button" class="btn btn-success">Preview</button></a>';
             output.innerHTML += content;
           }
         }
