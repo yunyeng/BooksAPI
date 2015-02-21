@@ -24,6 +24,15 @@
       <div class="input-group-lg">
         <input type="text" id="searchbar" class="form-control" placeholder="Enter the keyword and hit ENTER" aria-describedby="sizing-addon1">
       </div>
+    
+      <div class="input-group" id="username-area">
+        <input type="text" class="form-control" placeholder="Username?" id="username">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" id="username-button">Remember Me!</button>
+          </span>
+      </div>
+        
+      
       
       <div id="output"></div>
 
@@ -36,9 +45,13 @@
         var connect = document.querySelector('#connect');
         var output = document.querySelector("#output");
         var searchbar = document.querySelector("#searchbar");
+        var usernameArea = document.querySelector("#username-area");
+        var username = document.querySelector("#username");
+        var usernameButton = document.querySelector("#username-button");
         var url = "https://www.googleapis.com/books/v1/volumes?q="+name;
         
         searchbar.onkeypress = search;
+        usernameButton.onclick = checkCookie;
 
         /* -----------SET AND GET COOKIE FUNCTIONS----------- */
         function setCookie(cname, cvalue, exdays) {
@@ -60,14 +73,27 @@
         function checkCookie() {
           var user = getCookie("username");
           if (user != "") {
-              alert("Welcome again " + user);
+            usernameArea.remove();
+            alert("Welcome again " + user);
           } else {
-              user = prompt("Please enter your name:", "");
-              if (user != "" && user != null) {
-                  setCookie("username", user, 365);
-              }
+            user = username.value;
+            if (user != "" && user != null) {
+              setCookie("username", user, 365);
+            }
           }
         }
+        function deleteAllCookies() {
+          var cookies = document.cookie.split(";");
+
+          for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i];
+            var eqPos = cookie.indexOf("=");
+            var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+          }
+        }
+        //deleteAllCookies();
+        checkCookie();
         /* -----------SET AND GET COOKIE FUNCTIONS----------- */
 
         function search(event){
