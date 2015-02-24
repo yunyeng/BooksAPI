@@ -6,7 +6,7 @@ function start(){
 	var express = require('express');
 	var app = express();
 
-	 app.get('/about', function (req, res) {
+	app.get('/about', function (req, res) {
 	  res.send('Hello World!');
 	})
 
