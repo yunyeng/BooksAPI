@@ -75,7 +75,7 @@ function search(event){
 	if(event.which === 13 || event.keyCode === 13){
 		output.innerHTML = "";
 		name = searchbar.value;
-		setCookie("search", name, 365);
+		if(getCookie("username") != "") setCookie("search", name, 365);
 		handleResponse(JSON.parse(httpGet("https://www.googleapis.com/books/v1/volumes?q="+name+"&maxResults=40")));
 	}
 }
