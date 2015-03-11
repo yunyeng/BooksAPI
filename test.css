@@ -1,0 +1,93 @@
+body{
+	background: url("images/patternbg.png") repeat;
+	font-family: 'Raleway', sans-serif;
+	font-weight: 200;
+	text-transform: uppercase;
+}
+#outer-wrapper{
+	margin:0 auto;
+}
+.profile{
+	border:1px solid #000000;
+	margin:100px auto 0 auto;
+	width: 325px;
+	text-align: center;
+	border-radius:0 0 15px 15px;
+	box-shadow: 0 6px 3px #1c1f24;
+	padding:0;
+}
+.profile-top{
+	background: #e7decd;
+	width: 325px;
+	height: 135px;
+	border-radius:15px 15px 0 0;
+}
+.profile-top .top-button{
+
+}
+.profile-top .picture{
+	width:180px;
+	border-radius:90px;
+	position: relative;
+	top:40px;
+	border:5px solid #e7decd;
+}
+.profile-mid{
+	margin-top:120px;
+	background: #2f363e;
+	width: 325px;
+}
+.profile-mid h2{
+	margin:0 0 5px 0;
+	color:#e7decd;
+}
+.profile-mid h4{
+	margin:0 0 0 0;
+	color:#545c69;
+}
+.profile-mid button{
+	margin:10px 0 35px 0;
+	cursor: pointer;
+	font-weight: 400;
+	color:#e7decd;
+	background:#c44b30;
+	text-transform: uppercase;
+	font-size:0.9em;
+	border-radius:5px;
+	border:1px solid #000000;
+	outline:none;
+	width:160px;
+	height:40px;
+}
+.profile-bot{
+	width: 325px;
+	background: #313840;
+	color:#545c69;
+	border-radius:0 0 15px 15px;
+}
+.profile-bot span{
+	color:#1a1d22;
+	font-size:1.4em;
+	font-weight: 400;
+}
+.profile-bot .follower{
+	float:left;
+	background: #313840;
+	border-top:1px solid #000000;
+	border:1px solid #000000;
+	width:49%;
+	border-radius:0 0 0 15px;
+	margin:0;
+	padding:0;
+}
+.profile-bot .following{
+	float:right;
+	background: #313840;
+	border-top:1px solid #000000;
+	border-right:1px solid #000000;
+	border-bottom:1px solid #000000;
+	width:50%;
+	border-radius:0 0 15px 0;
+	margin:0;
+	padding:0;
+}

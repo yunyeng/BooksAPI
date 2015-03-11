@@ -11,7 +11,6 @@ var url = "https://www.googleapis.com/books/v1/volumes?q="+name;
 				
 searchbar.onkeypress = search;
 usernameButton.onclick = checkCookie;
-//deleteAllCookies();
 
 /* -----------SET AND GET COOKIE FUNCTIONS----------- */
 function setCookie(cname, cvalue, exdays) {
@@ -43,14 +42,12 @@ function checkCookie(){
 		}
 	}
 	if(user != "") {
-		usernameArea.innerHTML = "<h4>Welcome back, "+user+"</h4>";
-		usernameArea.innerHTML += "<div class=\"btn-group btn-group-xs\"><button onclick=\"logout()\" type=\"button\" class=\"btn btn-default\">Logout</button></div>";
+		usernameArea.innerHTML = "<div class=\"btn-group btn-group-xs\"><h4>Welcome back, "+user+"</h4> <button onclick=\"logout()\" type=\"button\" class=\"btn btn-default\">Logout</button></div>";
 	} else {
 		user = username.value;
 		if(user != "" && user != null) {
 			setCookie("username", user, 365);
-			usernameArea.innerHTML = "<h4>Welcome back, "+user+"</h4>";
-			usernameArea.innerHTML += "<div class=\"btn-group btn-group-xs\"><button onclick=\"logout()\" type=\"button\" class=\"btn btn-default\">Logout</button></div>";
+			usernameArea.innerHTML = "<div class=\"btn-group btn-group-xs\"><h4>Welcome back, "+user+"</h4> <button onclick=\"logout()\" type=\"button\" class=\"btn btn-default\">Logout</button></div>";
 		}
 	}
 }
@@ -111,3 +108,5 @@ function handleResponse(response){
 		output.innerHTML += content;
 	}
 }
+
+

@@ -1,3 +1,3 @@
 var server = require("./server");
-
-server.start();
+var twitter = require("./tw");
+server.start(twitter);
