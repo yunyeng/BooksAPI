@@ -1,30 +1,20 @@
 var express = require("express");
-var twitter = require("./tw");
+var bodyParser = require("body-parser");
+var mongojs = require("mongojs");
+var twitter = require("./modules/twitter");
 var port = 8888;
+var app = express();
+var db = mongojs('googlebooks', ['books', 'users']);
 
 function start(){
-	var express = require('express');
-	var app = express();
-
-	console.log(twitter.gotweet('asd'));
-
-	app.get('/about', function (req, res) {
-	  res.send('Hello World!');
-	})
 
 	app.use(express.static(__dirname + '/public'));
+	app.use(bodyParser.json());
 
-	var t = twitter.gotweet('harry potter');
-
-	app.get('/search', function(req, res){
-		console.log(t);
-		res.send(t);
-		//console.log(twitter.gotweet('harry potter'));
-		//res.send(t);
-    });
+	twitter.tweetOut(app);
 
 	app.listen(port, function() {
-	    console.log('server listening on port ' + port);
+	    console.log('Server listening on port: ' + port);
 	});
 }
 exports.start = start;

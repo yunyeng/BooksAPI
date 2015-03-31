@@ -1,0 +1,12 @@
+{
+  "name": "nodetests",
+  "version": "0.0.1",
+  "dependencies": {
+    "body-parser": "^1.12.2",
+    "express": "^4.12.3",
+    "fs": "0.0.2",
+    "mongojs": "^0.18.2",
+    "twitter": "^1.2.5",
+    "util": "^0.10.3"
+  }
+}

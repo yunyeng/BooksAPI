@@ -1,6 +1,5 @@
-function gotweet(word){
+function gotweet(app){
 	var Twitter = require('twitter');
-	var util = require('util');
 	 
 	process.env.TWITTER_CONSUMER_KEY = 'coCX3Z5mDFNc9Hy39abAZkkHo';
 	process.env.TWITTER_CONSUMER_SECRET = 'GyZ9OeTbn6zD6r5QzSHkaepzuarPfU9RmxaLrqMha6G74S5meC';
@@ -15,15 +14,17 @@ function gotweet(word){
 	});
 
 	var tweet = "";
+	//app.get('/search', function(req, res){
+		client.get('search/tweets', {q: req.query.q}, function(error, tweets, response){
+			tweet = tweets.statuses;
+	    });
+	    //console.log(tweet);
+	    //res.json(tweet);
+	//});
 
-	client.get('search/tweets', {q: word}, function(error, tweets, response){
-		tweet += tweets.statuses[0].text + '\n' +
-				tweets.statuses[1].text + '\n' +
-				tweets.statuses[2].text;
-		//console.log(tweet);
-		return tweet;
-	});
+	return tweet;
 
+	//console.log(tweet);
 
 	//return tweet;
 
@@ -35,7 +36,6 @@ function gotweet(word){
 		});
 	});
 
-	 
 	var params = {screen_name: 'onahippietrail'};
 	client.get('statuses/user_timeline', params, function(error, tweets, response){
 	  if (!error) {
