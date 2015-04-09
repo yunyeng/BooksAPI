@@ -1,6 +1,12 @@
 body{
 
 }
+a{
+	outline: none;
+}
+a:hover{
+	outline: none;
+}
 #wrapper{
 	width:1000px;
 	margin:25px auto 0 auto;
