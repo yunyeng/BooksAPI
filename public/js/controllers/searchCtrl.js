@@ -8,7 +8,8 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 		// Retrieving a cookie
 		//var favoriteCookie = $cookies.myFavorite;
 		// Setting a cookie
-		$cookies.username = $scope.username;
+		if($scope.username !== undefined)	$cookies.username = $scope.username;
+		console.log($scope.username);
 	};
 
 	$scope.logout = function(){
@@ -28,16 +29,26 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 		//}
 	};
 
-	/*
-	$scope.search = function(){
+	
+	$scope.search = function(page){
 		if($scope.cookieExists() && $scope.book.name !== undefined) $cookies.usersearch = $scope.book.name;
-		$http.get('/search/'+$scope.book.name).success(function(response){
+		var query = '/search/'+$scope.book.name;
+		if(page) query += '/'+page;
+		else query += '/1';
+		$http.get(query).success(function(response){
+			console.log(response.items);
+			$scope.total = response.totalItems;
+			$scope.number = Math.ceil($scope.total / 40);
+			console.log($scope.number);
 			$scope.books = response.items;
 		});
 	};
-	*/
+	
+	$scope.getNumber = function(num) {
+	    return new Array(num);
+	}
 
-	$scope.get = function(){
+	/*$scope.get = function(){
 		if($scope.cookieExists() && $scope.book.name !== undefined) $cookies.usersearch = $scope.book.name;
 		$http.get("https://www.googleapis.com/books/v1/volumes?q="+$scope.book.name+"&maxResults=40").success(function(response){
 			//console.log(response.items);
@@ -45,6 +56,7 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 
 		});
 	};
+	*/
 
 	/* BE CAREFUL!!! MUST BE MOST BOTTOM FUNCTION */
 	function cookieCheck(){
@@ -52,7 +64,7 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 		if($cookies.usersearch !== undefined){
 			$scope.book = {};
 			$scope.book.name = $cookies.usersearch;
-			$scope.get();
+			$scope.search();
 		}
 	}
 	cookieCheck();

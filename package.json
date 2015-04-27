@@ -18,6 +18,7 @@
     "mongojs": "^0.18.2",
     "node-uuid": "^1.4.3",
     "oauth-sign": "^0.7.0",
+    "request": "^2.55.0",
     "stringstream": "0.0.4",
     "tough-cookie": "^0.12.1",
     "tunnel-agent": "^0.4.0",

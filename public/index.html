@@ -18,12 +18,12 @@
       <div class="logo">
         <img src="images/logo.png" alt="Logo">
       </div>
-      <form id="search" ng-submit="get()">
+      <form id="search" ng-submit="search()">
         <div class="input-group-lg">
           <input type="text" name="q" class="form-control" autocomplete placeholder="Enter the keyword and hit return" aria-describedby="sizing-addon1" ng-model="book.name">
         </div>
       </form>
-      <div id="login-area">
+      <div id="login-area" class="pull-left">
         <form ng-hide="cookieExists()" class="input-group" ng-submit="login()">
           <input type="text" class="form-control" placeholder="Username?" id="username" ng-model="username">
           <span class="input-group-btn"><input class="btn btn-default" type="submit" value="Remember Me!"></span>
@@ -31,7 +31,7 @@
         <h5 ng-show="cookieExists()" class="pull-left">Welcome back, {{username}}!</h5>&nbsp;
         <button class="btn btn-info" ng-show="cookieExists()" ng-click="logout()">Logout</button>
       </div>
-      <div id="output">
+      <div id="output" class="pull-left">
         <h3 ng-show="cookieExists()">Your latest search:</h3>
         <div class="media" ng-repeat="book in books">
           <div class="media-left" ng-show="{{book.volumeInfo.imageLinks}}">
@@ -55,6 +55,21 @@
             </ul>
           </div>
         </div>
+        <nav id="pagination" ng-show="number">
+          <ul class="pagination">
+            <li>
+              <a href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li ng-repeat="i in getNumber(number) track by $index" ng-click="search($index+1)"><a href="#">{{$index+1}}</a></li>
+            <li>
+              <a href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
