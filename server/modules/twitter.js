@@ -1,4 +1,4 @@
-function tweetOut(app){
+module.exports = function(app){
 	var Twitter = require('twitter');
 	 
 	process.env.TWITTER_CONSUMER_KEY = 'coCX3Z5mDFNc9Hy39abAZkkHo';
@@ -38,4 +38,3 @@ function tweetOut(app){
 	return tweet;
 	*/
 }
-exports.tweetOut = tweetOut;

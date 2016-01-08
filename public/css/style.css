@@ -17,6 +17,23 @@ a:hover{
 	text-align: center;
 	margin:0 auto 25px auto;
 }
+
+.left-close{
+	position:relative;
+	left:16%;
+}
+.left-pane {
+	position: absolute;
+	left:0;
+	top:0;
+	width:15%;
+	height:100%;
+	border-right:1px solid darkgray;
+}
+
+.search-spinner{
+	margin: 0 auto;
+}
 #output{
 	margin:30px 0 30px 0;
 }
