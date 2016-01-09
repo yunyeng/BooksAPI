@@ -43,17 +43,20 @@ var mongojs 	= require("mongojs"),
 		if(list.id != undefined && list.id != "undefined"){
 			db.users.findOne({"_id": mongojs.ObjectId(list.id)}, function(err, doc){
 				if(doc){
-					var books = doc.books;
-					books[list.book] = {"time": moment().format()};
-					db.users.findAndModify({
-					    query: { "_id": mongojs.ObjectId(list.id) },
-					    update: { $set: { "books": books } },
-					    upsert: true
-					}, function (err, doc, lastErrorObject) {
-					    if(!err){
-					    	res.status(201).send({ message: "The book added to the list."});
-					    }
-					})
+					var userList = doc.books;
+					userList[list.book] = {"time": moment().format()};
+					db.books.findOne({"id": list.book}, function(err2, doc2){
+						userList[list.book].book = doc2;
+						db.users.findAndModify({
+						    query: { "_id": mongojs.ObjectId(list.id) },
+						    update: { $set: { "books": userList } },
+						    upsert: true
+						}, function (err3, doc3) {
+						    if(!err3){
+						    	res.status(201).send({ message: "The book added to the list."});
+						    }
+						});
+					});
 				}
 			});
 		}
@@ -113,7 +116,7 @@ var mongojs 	= require("mongojs"),
 					for (var book in result.books){
 					  if (result.books.hasOwnProperty(book)){
 					    db.books.findOne({"id": book}, function(err2, doc2){
-					    	console.log(result.books[book].time);
+					    	result.books[book].time
 					    	result.books[book].val = doc2;
 					    });
 					  }

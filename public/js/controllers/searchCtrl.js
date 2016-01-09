@@ -30,6 +30,7 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 	$scope.searched = true;
 	
 	$scope.search = function(page){
+		$scope.books = [];
 		$scope.searched = false;
 		if($scope.cookieExists() && $scope.book.name !== undefined) $cookies.usersearch = $scope.book.name;
 		var query = 'api/search/'+$scope.book.name;
@@ -40,6 +41,7 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 			$scope.number = Math.ceil($scope.total / 40);
 			console.log($scope.number);
 			$scope.books = response.items;
+			$scope.searched = true;
 		});
 	};
 	
@@ -58,14 +60,15 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 	*/
 
 	$scope.addBook = function(book){
-		$scope.buttons[book] = true;
+		// $scope.buttons[book] = true;
 		console.log(book);
 		var list = {};
 		list.id = $cookies.user;
 		list.book = book;
 		$http.post('api/list/add/', list).success(function(response){
-			$scope.buttons[book] = false;
 			console.log(response);
+			$scope.buttons[book] = false;
+			getList();
 		});
 	};
 
@@ -78,7 +81,7 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 		$http.post('api/list/remove/', list).success(function(response){
 			console.log(response);
 			$scope.buttons[book] = true;
-			delete $scope.list.books[book];
+			getList();
 		});
 	};
 

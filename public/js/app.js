@@ -1,4 +1,4 @@
-var app = angular.module("app", ["ngCookies", "ngRoute"]);
+var app = angular.module("app", ["ngCookies", "ngRoute", "pageslide-directive"]);
 app.service('middleService', function() {
 	var savedData = {}
 	function set(data){
@@ -13,4 +13,17 @@ app.service('middleService', function() {
 		set: set,
 		get: get
 	}
+});
+
+app.filter('orderByTime', function() {
+  return function(items, field) {
+    var filtered = [];
+    angular.forEach(items, function(item) {
+      filtered.push(item);
+    });
+    filtered.sort(function (a, b) {    
+      return (moment(a.time) < moment(b.time) ? 1 : -1);
+    });
+    return filtered;
+  };
 });
