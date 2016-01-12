@@ -1,4 +1,4 @@
-var app = angular.module("app", ["ngCookies", "ngRoute", "pageslide-directive"]);
+var app = angular.module("app", ["ngRoute", "ngCookies", "pageslide-directive"]);
 app.service('middleService', function() {
 	var savedData = {}
 	function set(data){

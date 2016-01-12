@@ -1,4 +1,4 @@
-angular.module('pageslide-directive', [])
+angular.module('pageslide-directive', ["ngRoute"])
 
 .directive('pageslide', ['$document', '$timeout',
     function ($document, $timeout) {
