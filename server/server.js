@@ -19,6 +19,10 @@ function start(){
 	 res.sendFile(path.resolve(folder + '/book.html'));
 	});
 
+	app.get('/mobile/*', function(req,res){
+	 res.sendFile(path.resolve(folder + '/mobile.html'));
+	});
+
 	function guid() {
 	  function s4() {
 	    return Math.floor((1 + Math.random()) * 0x10000)
