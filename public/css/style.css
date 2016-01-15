@@ -19,6 +19,7 @@ a:hover{
 .add-book-button{
 	margin-right:5px;
 }
+
 .remove-book-button{
 	margin-right:4px;
 }
@@ -36,22 +37,22 @@ a:hover{
 	/*border-right:1px solid darkgray;*/
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+.left-pane #left-pane-wrapper {
+	padding-left:15px;
+}
+
 .search-box{
 	margin:0 auto;
 	width:780px;
 }
 .left-close{
 	position:relative;
-	left:330px;
+	margin-top:8px;
+	margin-left:8px;
 	text-decoration: none;
 	color:none;
 }
-.left-close img {
-	-ms-transform: rotate(150deg); /* IE 9 */
-    -webkit-transform: rotate(150deg); /* Chrome, Safari, Opera */
-    transform: rotate(150deg);
-}
-
 .search-spinner{
 	width: 100%;
 	text-align: center;

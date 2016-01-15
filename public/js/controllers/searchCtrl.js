@@ -5,11 +5,14 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 	};
 
 	$scope.leftPane = false;
-	$scope.open = function(){
-		if($scope.leftPane)
+	$scope.openLeft = function(){
+		if($scope.leftPane){
 			$scope.leftPane = false;
-		else
+			$(".left-close").animate({"margin-left":"8px"});
+		} else{
 			$scope.leftPane = true;
+			$(".left-close").animate({"margin-left":"332px"});
+		}
 	};
 
 	$scope.login = function(){
@@ -28,22 +31,38 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 	};
 
 	$scope.searched = true;
+	$scope.book = {};
 	
-	$scope.search = function(page){
+	$scope.search = function(){
 		$scope.books = [];
 		$scope.searched = false;
 		if($scope.cookieExists() && $scope.book.name !== undefined) $cookies.usersearch = $scope.book.name;
 		var query = 'api/search/'+$scope.book.name;
-		if(page) query += '/'+page;
-		else query += '/1';
 		$http.get(query).success(function(response){
-			$scope.total = response.totalItems;
-			$scope.number = Math.ceil($scope.total / 40);
 			console.log($scope.number);
 			$scope.books = response.items;
 			$scope.searched = true;
+
+			history.pushState({}, "book", "?q="+$scope.book.name);
+
 		});
 	};
+
+	function getParameterByName(name) {
+	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+	        results = regex.exec(location.search);
+	    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+	}
+
+	function firstLoad(){
+		var query = getParameterByName("q");
+		if(query.length > 0){
+			$scope.book.name = query;
+			$scope.search();
+		}
+	}
+	firstLoad();
 	
 	// $scope.getNumber = function(num) {
 	//     return new Array(num);
@@ -69,6 +88,9 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 			console.log(response);
 			$scope.buttons[book] = false;
 			getList();
+			$(".left-close").addClass("btn-success").delay(200).queue(function(){
+		    	$(this).removeClass("btn-success").dequeue();
+			});
 		});
 	};
 
@@ -82,7 +104,15 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 			console.log(response);
 			$scope.buttons[book] = true;
 			getList();
+			$(".left-close").addClass("btn-warning").delay(200).queue(function(){
+		    	$(this).removeClass("btn-warning").dequeue();
+			});
 		});
+	};
+
+	$scope.isEmpty = function (obj) {
+	    for (var i in obj) if (obj.hasOwnProperty(i)) return false;
+	    return true;
 	};
 
 	function getList(){
