@@ -19,7 +19,7 @@ function start(){
 	 res.sendFile(path.resolve(folder + '/book.html'));
 	});
 
-	app.get('/mobile/*', function(req,res){
+	app.get('/mobile', function(req,res){
 	 res.sendFile(path.resolve(folder + '/mobile.html'));
 	});
 
