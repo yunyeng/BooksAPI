@@ -11,21 +11,6 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 		}
 	};
 
-	$scope.login = function(){
-		// Retrieving a cookie
-		//var favoriteCookie = $cookies.myFavorite;
-		// Setting a cookie
-		if($scope.username !== undefined)	$cookies.username = $scope.username;
-		console.log($scope.username);
-	};
-
-	$scope.logout = function(){
-    	delete $cookies.username;
-    	delete $cookies.usersearch;
-    	$scope.username = '';
-    	$scope.book.name = '';
-	};
-
 	$scope.searched = true;
 	$scope.book = {};
 	

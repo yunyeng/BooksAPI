@@ -16,11 +16,11 @@ function start(){
 	app.use("/", express.static(folder));
 
 	app.get('/book/*', function(req,res){
-	 res.sendFile(path.resolve(folder + '/book.html'));
+	 res.sendFile(path.resolve(folder + '/views/book.html'));
 	});
 
 	app.get('/mobile', function(req,res){
-	 res.sendFile(path.resolve(folder + '/mobile.html'));
+	 res.sendFile(path.resolve(folder + '/views/mobile.html'));
 	});
 
 	function guid() {

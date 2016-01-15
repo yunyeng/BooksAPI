@@ -1,4 +1,4 @@
-app.controller("BookCtrl", ["$scope", "$http", function($scope, $http){	
+app.controller("BookCtrl", ["$scope", "httpService", function($scope, httpService){
 	var pathname = window.location.pathname.split("/");
 	var id = pathname[pathname.length-1];
 
@@ -9,7 +9,7 @@ app.controller("BookCtrl", ["$scope", "$http", function($scope, $http){
 	// TODO tweet button brings tweets that belong to book one before !!!
 	$scope.getTweets = function(name){
 		//if($scope.books[index].tweets === undefined || $scope.books[index].tweets.length === 0){
-			$http.get("/tweets?q="+name).success(function(response){
+			httpService.getTweets(name).then(function(response){
 				console.log(response);
 				$scope.book.tweets = response;
 			});
@@ -17,8 +17,7 @@ app.controller("BookCtrl", ["$scope", "$http", function($scope, $http){
 	};
 
 	$scope.search = function(id){
-		var query = '/api/book/'+id;
-		$http.get(query).success(function(response){
+		httpService.getBook(id).then(function(response){
 			console.log(response);
 			if(response.content)	$scope.book = response.content;
 			else	$scope.book = response;

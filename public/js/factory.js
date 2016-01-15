@@ -23,6 +23,18 @@ app.factory('httpService', function($http) {
       return $http.post(url, list).then(function(result) {
         return result.data;
       });
+    },
+    getBook: function(id){
+      var url = '/api/book/'+id;
+      return $http.get(url).then(function(result) {
+        return result.data;
+      });
+    },
+    getTweets: function(name){
+      var url = "/tweets?q="+name;
+      return $http.get(url).then(function(result) {
+        return result.data;
+      });
     }
   }
 });

@@ -1,5 +1,11 @@
 var app = angular.module("app", ["ngRoute", "ngCookies", "pageslide-directive"]);
 
+function isMobile(){
+	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+	 window.location = "http://m.dopebooks.com/";
+	}
+}
+isMobile();
 
 app.service('middleService', function() {
 	var savedData = {}
