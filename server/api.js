@@ -155,7 +155,7 @@ var mongojs 	 = require("mongojs"),
 			// page	= 1;
 
 		// if(req.params.p !== undefined) page = parseInt(req.params.p);
-		// var maxResults = 40;
+		var maxResults = 40;
 		// var startIndex = maxResults * (page-1);
 		// console.log(startIndex);
 
