@@ -150,16 +150,16 @@ var mongojs 	 = require("mongojs"),
 	});
 
 	// Core Search API
-	app.get("/api/search/:q/:p?", function(req, res){
+	app.get("/api/search/:q", function(req, res){
 		var query 	= (req.params.q).toLowerCase();
 			// page	= 1;
 
-		if(req.params.p !== undefined) page = parseInt(req.params.p);
-		var maxResults = 40;
-		var startIndex = maxResults * (page-1);
-		console.log(startIndex);
+		// if(req.params.p !== undefined) page = parseInt(req.params.p);
+		// var maxResults = 40;
+		// var startIndex = maxResults * (page-1);
+		// console.log(startIndex);
 
-		db.books.find( { $or: [ {"volumeInfo.title": new RegExp(query, 'i')}, {"volumeInfo.authors": new RegExp(query, 'i')}  ] }).limit(maxResults).skip(startIndex, function(err, doc){
+		db.books.find( { $or: [ {"volumeInfo.title": new RegExp(query, 'i')}, {"volumeInfo.authors": new RegExp(query, 'i')}  ] }, function(err, doc){
 		//db.books.findOne({keyword: query, page: page}, function(err, doc){
 			if(doc.length){
 				console.log("Coming from: Cache Database");
