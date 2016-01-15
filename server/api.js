@@ -1,9 +1,15 @@
 module.exports = function(app) {
 
-var mongojs 	= require("mongojs"),
-	request 	= require("request"),
-	moment		= require("moment"),
-    db 			= mongojs('googlebooks', ['books', 'users', 'comments']);
+var mongojs 	 = require("mongojs"),
+	request 	 = require("request"),
+	moment		 = require("moment"),
+    // db 			 = mongojs('googlebooks', ['books', 'users', 'comments']);
+	db 			 = mongojs('mongodb://yunyeng:murat131@ds045795.mongolab.com:45795/heroku_3r8s4727', ['books', 'users', 'comments']);
+
+
+	// Amazon 		 = require('amazon-book-search'),
+	// amazonClient =  new Amazon({awsKey:'AKIAIMUVCCW76IAEMWRQ',awsSecret:'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'});
+
 
 ////////////// API Starts //////////////////
 /*
@@ -92,9 +98,19 @@ var mongojs 	= require("mongojs"),
 		console.log(req.params.id);
 		var query 	= req.params.id;
 		console.log(query);
+		// var book = {};
 		db.books.findOne({"id": query}, function(err, doc){
 			console.log("Coming from: Cache Database");
+			// var isbn = doc.volumeInfo.industryIdentifiers[0].identifier;
+			// book = doc;
 			res.json(doc);
+			// First 10 Results
+			// amazonClient.search(isbn, function(error, response){
+			// 	if(response.results.length)
+			// 		book.volumeInfo.price = response.results[0].price;
+			    // doc.volumeInfo.price = console.log(response.results[0].price);
+			    
+			// });
 		});
 	});
 
