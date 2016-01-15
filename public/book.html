@@ -24,6 +24,7 @@
         <p><strong>Published in:</strong> {{book.volumeInfo.publishedDate | date}}</p>
         <p><strong>Published by:</strong> {{book.volumeInfo.publisher }}</p>
         <p>{{ book.volumeInfo.pageCount }} pages</p>
+        <p>{{ book.volumeInfo.price }}</p>
 
         <img class="media-object" src="{{book.volumeInfo.imageLinks.smallThumbnail}}" alt="{{book.volumeInfo.title}}">
         <p>{{book.volumeInfo.description}}</p>
