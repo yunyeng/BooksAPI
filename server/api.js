@@ -7,10 +7,6 @@ var mongojs 	 = require("mongojs"),
 	db 			 = mongojs('mongodb://yunyeng:murat131@ds045795.mongolab.com:45795/heroku_3r8s4727', ['books', 'users', 'comments']);
 
 
-	// Amazon 		 = require('amazon-book-search'),
-	// amazonClient =  new Amazon({awsKey:'AKIAIMUVCCW76IAEMWRQ',awsSecret:'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'});
-
-
 ////////////// API Starts //////////////////
 /*
 	app.post("/api/book/:q", function(req, res){
@@ -132,12 +128,10 @@ var mongojs 	 = require("mongojs"),
 					for (var book in result.books){
 					  if (result.books.hasOwnProperty(book)){
 					    db.books.findOne({"id": book}, function(err2, doc2){
-					    	result.books[book].time
 					    	result.books[book].val = doc2;
 					    });
 					  }
 					}
-
 					res.json(result);
 				} else {
 					db.users.insert({"_id": mongojs.ObjectId(id), "books": {}}, function(err, doc){
@@ -153,7 +147,8 @@ var mongojs 	 = require("mongojs"),
 	app.get("/api/search/:q", function(req, res){
 		var query 	= (req.params.q).toLowerCase();
 			// page	= 1;
-
+		if(query === undefined || query === "" || query.length < 1)
+			return false;
 		// if(req.params.p !== undefined) page = parseInt(req.params.p);
 		var maxResults = 40;
 		// var startIndex = maxResults * (page-1);

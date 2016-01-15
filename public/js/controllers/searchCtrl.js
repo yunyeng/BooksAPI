@@ -34,9 +34,11 @@ app.controller("SearchCtrl", ["$scope", "$http", "$cookies", function($scope, $h
 	$scope.book = {};
 	
 	$scope.search = function(){
+		if($scope.book.name === undefined || $scope.book.name === "" || $scope.book.name.length < 1)
+			return false;
 		$scope.books = [];
 		$scope.searched = false;
-		if($scope.cookieExists() && $scope.book.name !== undefined) $cookies.usersearch = $scope.book.name;
+		// if($scope.cookieExists() && $scope.book.name !== undefined) $cookies.usersearch = $scope.book.name;
 		var query = 'api/search/'+$scope.book.name;
 		$http.get(query).success(function(response){
 			console.log($scope.number);
