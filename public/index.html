@@ -60,10 +60,6 @@ you're quite the l33t hacker looking at this page's source
   </head>
   <body ng-controller="SearchCtrl" ng-cloak>
   
-    <!-- <a href="" title="Open Book List" ng-click="open()" class="left-close">
-      <img src="images/arrow.png" alt="" width="48px">
-    </a> -->
-
     <button class="btn btn-default btn-sm left-close" ng-click="openLeft()">
         <i title="Open Books List" ng-hide="leftPane" class="fa fa-bars fa-2x"></i>
         <i title="Close Books List" ng-show="leftPane" class="fa fa-close fa-2x"></i>
@@ -104,14 +100,7 @@ you're quite the l33t hacker looking at this page's source
           <input autofocus type="text" name="q" class="form-control search-box" autocomplete placeholder="Type a keyword and enter" aria-describedby="sizing-addon1" ng-model="book.name">
         </div>
       </form>
-      <!-- <div id="login-area" class="pull-left">
-        <form ng-hide="cookieExists()" class="input-group" ng-submit="login()">
-          <input type="text" class="form-control" placeholder="Username?" id="username" ng-model="username">
-          <span class="input-group-btn"><input class="btn btn-default" type="submit" value="Remember Me!"></span>
-        </form>
-        <h5 ng-show="cookieExists()" class="pull-left">Welcome back, {{username}}!</h5>&nbsp;
-        <button class="btn btn-info" ng-show="cookieExists()" ng-click="logout()">Logout</button>
-      </div> -->
+    
       <div id="output">
         <h3 ng-show="cookieExists()">Your latest search:</h3>
         <div class="search-spinner" ng-hide="books.length || searched">
@@ -140,12 +129,6 @@ you're quite the l33t hacker looking at this page's source
             {{book.volumeInfo.description | limitTo:650}}...
             <br />
             <p ng-show="{{book.volumeInfo.publishedDate}}"><strong>Published in:</strong> {{book.volumeInfo.publishedDate | date}}</p>
-            <p ng-show="{{book.volumeInfo.pageCount}}"><strong>Pages:</strong> {{book.volumeInfo.pageCount}}</p>
-
-            <!--
-            <button ng-model="collapsed" ng-click="collapsed=!collapsed">Click</button>
-            <div ng-show="collapsed">I am description for the above title, which was collapsed by default</div>
-            -->
 
             <br /><br />
           </div>
@@ -162,6 +145,7 @@ you're quite the l33t hacker looking at this page's source
     <script src="./js/angular-pageslide-directive.js"></script>
     <!-- Angular Cores End -->
     <script src="./js/app.js"></script>
+    <script src="./js/factory.js"></script>
     <!-- Controllers Begin -->
     <script src="./js/controllers/searchCtrl.js"></script>
     <script src="./js/controllers/bookCtrl.js"></script>
