@@ -6,7 +6,6 @@ var mongojs 	 = require("mongojs"),
     // db 			 = mongojs('googlebooks', ['books', 'users', 'comments']);
 	db 			 = mongojs('mongodb://yunyeng:murat131@ds045795.mongolab.com:45795/heroku_3r8s4727', ['books', 'users', 'comments']);
 
-
 ////////////// API Starts //////////////////
 /*
 	app.post("/api/book/:q", function(req, res){
