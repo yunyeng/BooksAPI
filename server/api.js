@@ -99,13 +99,6 @@ var mongojs 	 = require("mongojs"),
 			// var isbn = doc.volumeInfo.industryIdentifiers[0].identifier;
 			// book = doc;
 			res.json(doc);
-			// First 10 Results
-			// amazonClient.search(isbn, function(error, response){
-			// 	if(response.results.length)
-			// 		book.volumeInfo.price = response.results[0].price;
-			    // doc.volumeInfo.price = console.log(response.results[0].price);
-			    
-			// });
 		});
 	});
 
