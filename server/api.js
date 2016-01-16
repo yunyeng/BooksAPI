@@ -3,8 +3,8 @@ module.exports = function(app) {
 var mongojs 	 = require("mongojs"),
 	request 	 = require("request"),
 	moment		 = require("moment"),
-    db 			 = mongojs('googlebooks', ['books', 'users', 'comments']);
-	// db 			 = mongojs('mongodb://yunyeng:murat131@ds045795.mongolab.com:45795/heroku_3r8s4727', ['books', 'users', 'comments']);
+    // db 			 = mongojs('googlebooks', ['books', 'users', 'comments']);
+	db 			 = mongojs('mongodb://yunyeng:murat131@ds045795.mongolab.com:45795/heroku_3r8s4727', ['books', 'users', 'comments']);
 
 ////////////// API Starts //////////////////
 /*
