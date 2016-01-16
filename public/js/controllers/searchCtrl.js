@@ -20,14 +20,32 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 		$scope.books = [];
 		$scope.searched = false;
 		httpService.search($scope.book.name).then(function(response){
-			console.log($scope.number);
 			$scope.books = response.items;
 			$scope.searched = true;
-
+			$scope.showPopular = false;
 			history.pushState({}, "book", "?q="+$scope.book.name);
 
 		});
 	};
+
+	function getList(){		
+		httpService.getList($cookies.user).then(function(response) {
+        	if($cookies.user === undefined)	$cookies.user = response.id;
+			$scope.list = response;
+			$scope.buttons = {};
+    	});
+	}
+	getList();
+
+	$scope.showPopular = false;
+	function getPopular(){
+		httpService.getPopular().then(function(response) {
+			$scope.popularBooks = response;
+			console.log(response)
+			$scope.showPopular = true;
+    	});
+	}
+	getPopular();
 
 	function getParameterByName(name) {
 	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -47,12 +65,10 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 	
 	$scope.addBook = function(book){
 		// $scope.buttons[book] = true;
-		console.log(book);
 		var list = {};
 		list.id = $cookies.user;
 		list.book = book;
 		httpService.addBook(list).then(function(response){
-			console.log(response);
 			$scope.buttons[book] = false;
 			getList();
 			$(".left-close").addClass("btn-success").delay(200).queue(function(){
@@ -63,12 +79,10 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 
 	$scope.removeBook = function(book){
 		$scope.buttons[book] = false;
-		console.log(book);
 		var list = {};
 		list.id = $cookies.user;
 		list.book = book;
 		httpService.removeBook(list).then(function(response){
-			console.log(response);
 			$scope.buttons[book] = true;
 			getList();
 			$(".left-close").addClass("btn-warning").delay(200).queue(function(){
@@ -78,19 +92,8 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 	};
 
 	$scope.isEmpty = function (obj) {
-	    for (var i in obj) if (obj.hasOwnProperty(i)) return false;
+	    for(var i in obj) if(obj.hasOwnProperty(i)) return false;
 	    return true;
 	};
-
-	function getList(){
-		console.log($cookies.user);
-		httpService.getList($cookies.user).then(function(response) {
-        	if($cookies.user === undefined)	$cookies.user = response.id;
-			console.log(response);
-			$scope.list = response;
-			$scope.buttons = {};
-    	});
-	}
-	getList();
 
 }]);

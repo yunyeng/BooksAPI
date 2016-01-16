@@ -47,6 +47,32 @@ a:hover{
 	margin:0 auto;
 	width:780px;
 }
+.popular-books{
+
+}
+.popular-books li a{
+	max-width: 171px;
+	height: 300px;
+	float:left;
+	padding:25px;
+	margin-right:22px;
+	margin-bottom:20px;
+	border:1px solid lightgray;
+	color:#000000;
+	text-decoration: none;
+}
+.popular-books li a:hover{
+	background:#E0E0E0;
+}
+/*.popular-books li a:nth-child(4n) { 
+	width: 100px !important;
+	margin-right: 0 !important; 
+}*/
+.popular-books li a p{
+	margin-top:10px;
+	text-align:center;
+	font-style:italic;
+}
 .left-close{
 	position:fixed;
 	margin-top:-14px;

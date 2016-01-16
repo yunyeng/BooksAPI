@@ -71,18 +71,17 @@ you're quite the l33t hacker looking at this page's source
             <p ng-show="isEmpty(list.books)"><em>You have no books in your list right now.</em></p>
             <ul class="list-unstyled">
               <li ng-repeat="book in list.books | orderByTime:'time'">
-              <button ng-click="removeBook(book.book.id)" class="btn btn-success btn-xs pull-left remove-book-button" type="button" title="Remove from the list">
+              <button ng-click="removeBook(book.id)" class="btn btn-success btn-xs pull-left remove-book-button" type="button" title="Remove from the list">
                     <i class="fa fa-check"></i>
                   </button> 
-                <div class="media-left" ng-show="{{book.book.volumeInfo.imageLinks}}">
-                  <a href="/book/{{ book.book.id }}" title="{{book.book.volumeInfo.title}}"><img width="64px" src="{{book.book.volumeInfo.imageLinks.smallThumbnail}}" alt="{{book.book.volumeInfo.title}}"></a>
+                <div class="media-left" ng-show="{{book.imageLinks}}">
+                  <a href="/book/{{ book.id }}" title="{{book.title}}"><img width="64px" src="{{book.imageLinks.smallThumbnail}}" alt="{{book.title}}"></a>
                 </div>
                 <div class="media-body">
-                  <h4 class="media-heading pull-left"><a href="/book/{{ book.book.id }}" title="{{book.book.volumeInfo.title}}">{{book.book.volumeInfo.title}}</a> </h4>
-                  <p class="pull-left">&nbsp;by<p ng-show="{{book.book.volumeInfo.authors}}" ng-repeat="author in book.book.volumeInfo.authors" class="pull-left">&nbsp;{{author}}{{$last ? '' : ', '}}</p></p>
+                  <h4 class="media-heading pull-left"><a href="/book/{{ book.id }}" title="{{book.title}}">{{book.title}}</a> </h4>
+                  <p class="pull-left">&nbsp;by<p ng-show="{{book.authors}}" ng-repeat="author in book.authors" class="pull-left">&nbsp;{{author}}{{$last ? '' : ', '}}</p></p>
                   <br /><br /><br />
-                  <p class="pull-left" ng-show="book.book.volumeInfo.categories[0]"><span ng-repeat="category in book.book.volumeInfo.
-                  categories"><em> {{category}}{{$last ? '' : ' | '}} </em></span></p>
+                  <p class="pull-left" ng-show="book.categories[0]"><span ng-repeat="category in book.categories"><em> {{category}}{{$last ? '' : ' | '}} </em></span></p>
                 </div>
                 <hr />
               </li>
@@ -102,11 +101,23 @@ you're quite the l33t hacker looking at this page's source
       </form>
     
       <div id="output">
-        <h3 ng-show="cookieExists()">Your latest search:</h3>
         <div class="search-spinner" ng-hide="books.length || searched">
           <i class="fa fa-spinner fa-4x fa-pulse"></i>
           <!-- <p>Searching...</p> -->
         </div>
+
+        <div ng-show="showPopular && popularBooks.length" class="popular-books">
+          <!-- <h3>This Month Popular</h3> -->
+          <ul class="list-unstyled popular-books">
+            <li ng-repeat="book in popularBooks">
+              <a href="/book/{{ book.id }}" title="{{book.title}}">
+              <img width="125px" src="{{book.imageLinks.smallThumbnail}}" alt="{{book.title}}">
+              <p>{{book.title}}</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+
         <div class="media" ng-repeat="book in books">
 
           <button ng-hide="buttons[book.id] || list.books[book.id]" ng-click="addBook(book.id)" class="btn btn-default pull-left add-book-button" type="button" title="Add to the list">

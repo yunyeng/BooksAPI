@@ -3,8 +3,8 @@ module.exports = function(app) {
 var mongojs 	 = require("mongojs"),
 	request 	 = require("request"),
 	moment		 = require("moment"),
-    // db 			 = mongojs('googlebooks', ['books', 'users', 'comments']);
-	db 			 = mongojs('mongodb://yunyeng:murat131@ds045795.mongolab.com:45795/heroku_3r8s4727', ['books', 'users', 'comments']);
+    db 			 = mongojs('googlebooks', ['books', 'users', 'comments']);
+	// db 			 = mongojs('mongodb://yunyeng:murat131@ds045795.mongolab.com:45795/heroku_3r8s4727', ['books', 'users', 'comments']);
 
 ////////////// API Starts //////////////////
 /*
@@ -44,13 +44,19 @@ var mongojs 	 = require("mongojs"),
 		if(list.id != undefined && list.id != "undefined"){
 			db.users.findOne({"_id": mongojs.ObjectId(list.id)}, function(err, doc){
 				if(doc){
+					console.log("Really? " + list.id);
 					var userList = doc.books;
 					userList[list.book] = {"time": moment().format()};
 					db.books.findOne({"id": list.book}, function(err2, doc2){
-						userList[list.book].book = doc2;
+						userList[list.book].id = doc2.id;
+						userList[list.book].title = doc2.volumeInfo.title;
+						userList[list.book].authors = doc2.volumeInfo.authors;
+						userList[list.book].categories = doc2.volumeInfo.categories;
+						userList[list.book].imageLinks = doc2.volumeInfo.imageLinks;
+
 						db.users.findAndModify({
 						    query: { "_id": mongojs.ObjectId(list.id) },
-						    update: { $set: { "books": userList } },
+						    update: { $set: { "books": userList, "updated": moment().format() } },
 						    upsert: true
 						}, function (err3, doc3) {
 						    if(!err3){
@@ -75,7 +81,7 @@ var mongojs 	 = require("mongojs"),
 						delete books[list.book];
 						db.users.findAndModify({
 						    query: { "_id": mongojs.ObjectId(list.id) },
-						    update: { $set: { "books": books } },
+						    update: { $set: { "books": books, "updated": moment().format() } },
 						    upsert: true
 						}, function (err, doc, lastErrorObject) {
 						    if(!err){
@@ -135,6 +141,28 @@ var mongojs 	 = require("mongojs"),
 		}
 	});
 
+	app.get("/api/popular", function(req, res){
+		db.users.find({}, function(err, doc){
+			// console.log(doc);
+			var popular = [];
+			for(var i=0; i<doc.length; i++){
+				var books      = doc[i].books;
+				var month      = moment().subtract(30, 'days').format();
+				if(doc[i].updated > month){
+					var booksGroup = {};
+					for(var book in books){
+						if(books.hasOwnProperty(book) && books[book].time > month && booksGroup[book] == undefined){
+							console.log(book);
+							booksGroup[book] = 1;
+							popular[popular.length] = books[book];
+						}
+					}
+				}
+			}
+			res.json(popular);
+		});
+	});
+
 	// Core Search API
 	app.get("/api/search/:q", function(req, res){
 		var query 	= (req.params.q).toLowerCase();
@@ -148,7 +176,7 @@ var mongojs 	 = require("mongojs"),
 
 		db.books.find( { $or: [ {"volumeInfo.title": new RegExp(query, 'i')}, {"volumeInfo.authors": new RegExp(query, 'i')}  ] }, function(err, doc){
 		//db.books.findOne({keyword: query, page: page}, function(err, doc){
-			if(doc.length){
+			if(doc.length > 24){
 				console.log("Coming from: Cache Database");
 				console.log(query);
 				//console.log(doc);
