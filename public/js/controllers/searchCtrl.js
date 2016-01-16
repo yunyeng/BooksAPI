@@ -1,6 +1,10 @@
 app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($scope, $cookies, httpService){
 
 	$scope.leftPane = false;
+	$scope.searched = true;
+	$scope.showPopular = false;
+	$scope.book = {};
+
 	$scope.openLeft = function(){
 		if($scope.leftPane){
 			$scope.leftPane = false;
@@ -10,10 +14,6 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 			$(".left-close").animate({"margin-left":"332px"});
 		}
 	};
-
-	$scope.searched = true;
-	$scope.showPopular = false;
-	$scope.book = {};
 	
 	$scope.search = function(){
 		if($scope.book.name === undefined || $scope.book.name === "" || $scope.book.name.length < 1)
@@ -30,8 +30,12 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 	};
 
 	function getList(){		
-		httpService.getList($cookies.user).then(function(response) {
-        	if($cookies.user === undefined)	$cookies.user = response.id;
+		var now = new Date();
+		now.setDate(now.getDate() + 365);
+		httpService.getList($cookies.get("user")).then(function(response) {
+        	if($cookies.get("user") === undefined){
+        		$cookies.put("user", response.id, { expires: now });
+        	}
 			$scope.list = response;
 			$scope.buttons = {};
     	});
@@ -65,7 +69,7 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 	$scope.addBook = function(book){
 		// $scope.buttons[book] = true;
 		var list = {};
-		list.id = $cookies.user;
+		list.id = $cookies.get("user");
 		list.book = book;
 		httpService.addBook(list).then(function(response){
 			$scope.buttons[book] = false;
@@ -79,7 +83,7 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 	$scope.removeBook = function(book){
 		$scope.buttons[book] = false;
 		var list = {};
-		list.id = $cookies.user;
+		list.id = $cookies.get("user");
 		list.book = book;
 		httpService.removeBook(list).then(function(response){
 			$scope.buttons[book] = true;

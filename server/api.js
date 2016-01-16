@@ -146,18 +146,17 @@ var mongojs 	 = require("mongojs"),
 			if(doc){
 				// console.log(doc);
 				var popular = [];
+				var booksGroup = {};
 				for(var i=0; i<doc.length; i++){
 					var books      = doc[i].books;
 					var month      = moment().subtract(30, 'days').format();
 					if(doc[i].updated > month){
-						var booksGroup = {};
 						for(var book in books){
-							if(books.hasOwnProperty(book) && books[book].time > month && booksGroup[book] == undefined){
-								console.log(book);
-								booksGroup[book] = 1;
+							if(booksGroup[book] === undefined && books.hasOwnProperty(book) && books[book].time > month){
+								booksGroup[book] = true;
 								popular[popular.length] = books[book];
 							}
-						}
+						}						
 					}
 				}
 				res.json(popular);
