@@ -5,7 +5,7 @@ function isMobile(){
 	 window.location = "http://m.dopebooks.com/";
 	}
 }
-isMobile();
+// isMobile();
 
 app.service('middleService', function() {
 	var savedData = {}
