@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ book.volumeInfo.title }}</title>
+    <title></title>
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
@@ -18,79 +18,8 @@
   <body>
 
     <div id="wrapper">
-      <div class="logo">
-        <a href="/" title="Homepage"><img src="/images/logo.png" alt="Logo"></a>
-      </div>
-      <div class="media-body">
-        <h2>{{ book.volumeInfo.title }}</h2>
-        <h4>Writers: <span ng-show="{{book.volumeInfo.authors}}" ng-repeat="author in book.volumeInfo.authors">&nbsp;{{author}}{{$last ? '' : ', '}}</span></h4>
-        <p><strong>Published in:</strong> {{book.volumeInfo.publishedDate | date}}</p>
-        <p><strong>Published by:</strong> {{book.volumeInfo.publisher }}</p>
-        <p>{{ book.volumeInfo.pageCount }} pages</p>
-
-        <img class="media-object" src="{{book.volumeInfo.imageLinks.smallThumbnail}}" alt="{{book.volumeInfo.title}}">
-        <p>{{book.volumeInfo.description}}</p>
-        <p><strong>Languages:</strong> {{book.volumeInfo.language}}</p>
-        <div ng-show="book.searchInfo.textSnippet" class="well">
-          <p>{{book.searchInfo.textSnippet}}</p>
-        </div>
-
-        <button class="btn btn-info" ng-click="getTweets(book.volumeInfo.title)" title="Click Again to refresh tweets"><i class="icon-white icon-headphones"></i> Reviews</button>
-        <a href="http://www.amazon.com/gp/search/ref=sr_adv_b/?search-alias=stripbooks&unfiltered=1&field-isbn={{book.volumeInfo.industryIdentifiers[0].identifier}}&sort=relevanceexprank&Adv-Srch-Books-Submit.x=46&Adv-Srch-Books-Submit.y=21" title="" target="_blank">
-          <button type="button" class="btn btn-warning">Go Amazon</button>
-        </a>
-        <a href="{{book.volumeInfo.previewLink}}" title="" target="_blank">
-          <button type="button" class="btn btn-success">Preview</button>
-        </a>
-        <ul class="list-unstyled">
-          <li ng-repeat="tweet in book.tweets"><p><strong><a href="https://www.twitter.com/{{tweet.user.screen_name}}/status/{{tweet.id_str}}" target="_blank" title="{{tweet.user.screen_name}}"><img src="/images/tweet.png" alt="Tweet" width="18px" class="pull-left"> &nbsp;{{tweet.user.screen_name}}</a></strong> {{tweet.text}}</p></li>
-        </ul>
-
-        <div id="commentArea" ng-controller="CommentCtrl">
-          <div id="comments" ng-show="comments.length > 0">
-            <h4>Comments</h4>
-            <ul class="list-group">
-              <li ng-repeat="comment in comments | orderBy:'-date'" class="list-group-item" >
-                <p><strong>{{ comment.name }}</strong> <small>on {{ comment.date | date }}</small> says:</p>
-                <p>{{ comment.content }}</p>
-              </li>
-            </ul>
-          </div>
-          <h4>Make a Comment</h4>
-          <form ng-submit="add()">
-            <div class="form-group">
-              <input type="text" class="form-control" id="inputName" placeholder="Your Name" ng-model="comment.name">
-            </div>
-            <div class="form-group">
-              <input type="email" class="form-control" id="inputEmail" placeholder="Your Email" ng-model="comment.email">
-            </div>
-            <div class="form-group">
-              <label for="inputComment">Comment</label>
-              <textarea class="form-control" rows="3" id="inputComment" placeholer="Your Comment" ng-model="comment.content"></textarea>
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
-        </div>
-
-
-      </div>
       
     </div>
 
-    <!-- Angular Cores Begin -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
-    <script src="https://code.angularjs.org/1.3.15/angular-cookies.min.js"></script>
-    <script src="https://code.angularjs.org/1.3.15/angular-route.min.js"></script>
-    <script src="/js/moment.js"></script>
-    <script src="/js/angular-pageslide-directive.js"></script>
-    <!-- Angular Cores End -->
-    <script src="/js/app.js"></script>
-    <script src="/js/factory.js"></script>
-    <!-- Controllers Begin -->
-    <script src="/js/controllers/searchCtrl.js"></script>
-    <script src="/js/controllers/bookCtrl.js"></script>
-    <script src="/js/controllers/commentCtrl.js"></script>
-    <!-- Controllers End -->
   </body>
 </html>

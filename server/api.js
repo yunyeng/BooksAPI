@@ -143,23 +143,25 @@ var mongojs 	 = require("mongojs"),
 
 	app.get("/api/popular", function(req, res){
 		db.users.find({}, function(err, doc){
-			// console.log(doc);
-			var popular = [];
-			for(var i=0; i<doc.length; i++){
-				var books      = doc[i].books;
-				var month      = moment().subtract(30, 'days').format();
-				if(doc[i].updated > month){
-					var booksGroup = {};
-					for(var book in books){
-						if(books.hasOwnProperty(book) && books[book].time > month && booksGroup[book] == undefined){
-							console.log(book);
-							booksGroup[book] = 1;
-							popular[popular.length] = books[book];
+			if(doc){
+				// console.log(doc);
+				var popular = [];
+				for(var i=0; i<doc.length; i++){
+					var books      = doc[i].books;
+					var month      = moment().subtract(30, 'days').format();
+					if(doc[i].updated > month){
+						var booksGroup = {};
+						for(var book in books){
+							if(books.hasOwnProperty(book) && books[book].time > month && booksGroup[book] == undefined){
+								console.log(book);
+								booksGroup[book] = 1;
+								popular[popular.length] = books[book];
+							}
 						}
 					}
 				}
+				res.json(popular);
 			}
-			res.json(popular);
 		});
 	});
 

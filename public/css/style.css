@@ -27,6 +27,7 @@ a:hover{
 	width:775px;
 	margin:25px auto 0 auto;
 	text-align: justify;
+	position: relative;
 }
 .logo{
 	width: 100%;
@@ -101,4 +102,22 @@ a:hover{
 }
 #pagination{
 	margin: 50px 0 0 -80px;
+}
+
+#footer{
+	border-top:1px solid lightgray;
+	position:relative;
+	text-align: center;
+	bottom:0;
+	/*width:50%;*/
+	height:40px;   /* Height of the footer */
+}
+#footer a{
+	text-decoration: none;
+	color:lightgray;
+}
+#footer a:hover{
+	cursor: pointer;
+	text-decoration: none;
+	color:lightgray;
 }

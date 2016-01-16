@@ -12,17 +12,18 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 	};
 
 	$scope.searched = true;
+	$scope.showPopular = false;
 	$scope.book = {};
 	
 	$scope.search = function(){
 		if($scope.book.name === undefined || $scope.book.name === "" || $scope.book.name.length < 1)
 			return false;
+		$scope.showPopular = false;
 		$scope.books = [];
 		$scope.searched = false;
 		httpService.search($scope.book.name).then(function(response){
 			$scope.books = response.items;
 			$scope.searched = true;
-			$scope.showPopular = false;
 			history.pushState({}, "book", "?q="+$scope.book.name);
 
 		});
@@ -37,11 +38,9 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 	}
 	getList();
 
-	$scope.showPopular = false;
 	function getPopular(){
 		httpService.getPopular().then(function(response) {
 			$scope.popularBooks = response;
-			console.log(response)
 			$scope.showPopular = true;
     	});
 	}
