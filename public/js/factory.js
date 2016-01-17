@@ -1,15 +1,24 @@
-app.factory('coreService', function($http, $cookies) {
+app.factory('coreService', function($http, $cookies, localStorageService) {
   return {
-    getUser: function(){
-      return $cookies.get("user");
+    get: function(url){
+      return $http.get(url).then(function(result) {
+        return result.data;
+      });
     },
-    setUser: function(value, expiration){
-      if(expiration === undefined){
-        var now = new Date();
-        now.setDate(now.getDate() + 365);
-        expiration = now;
-      }
-      $cookies.put("user", value, { expires: expiration });
+    getUser: function(){
+      var user = localStorageService.get("user");
+        if(user === null)
+          user = $cookies.get("user");
+      return user;
+    },
+    setUser: function(value){
+      // if(expiration === undefined){
+      //   var now = new Date();
+      //   now.setDate(now.getDate() + 365);
+      //   expiration = now;
+      // }
+      // $cookies.put("user", value, { expires: expiration });
+      localStorageService.set("user", value)
     },
     search: function(query){
       var url = '/api/search/' + query;

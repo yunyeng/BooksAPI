@@ -1,4 +1,4 @@
-app.controller("SearchCtrl", function($scope, coreService, localStorageService){
+app.controller("SearchCtrl", function($scope, coreService){
 
 	$scope.leftPane = false;
 	$scope.searched = true;
@@ -48,9 +48,9 @@ app.controller("SearchCtrl", function($scope, coreService, localStorageService){
 	firstLoad();
 
 	function getList(){
-		coreService.getList(localStorageService.get("user")).then(function(response) {
-        	if(localStorageService.get("user") === null || localStorageService.get("user") === "null")
-        		localStorageService.set("user", response.id);
+		coreService.getList(coreService.getUser()).then(function(response) {
+        	if(coreService.getUser() === null || coreService.getUser() === "null")
+        		coreService.setUser(response.id)
 			$scope.list = response;
 			$scope.buttons = {};
     	});
@@ -67,7 +67,7 @@ app.controller("SearchCtrl", function($scope, coreService, localStorageService){
 	$scope.addBook = function(book){
 		// $scope.buttons[book] = true;
 		var list = {};
-		list.id = localStorageService.get("user");
+		list.id = coreService.getUser();
 		list.book = book;
 		coreService.addBook(list).then(function(response){
 			$scope.buttons[book] = false;
@@ -81,7 +81,7 @@ app.controller("SearchCtrl", function($scope, coreService, localStorageService){
 	$scope.removeBook = function(book){
 		$scope.buttons[book] = false;
 		var list = {};
-		list.id = localStorageService.get("user");
+		list.id = coreService.getUser();
 		list.book = book;
 		coreService.removeBook(list).then(function(response){
 			$scope.buttons[book] = true;

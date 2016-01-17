@@ -1,4 +1,4 @@
-app.controller("BookCtrl", function($scope, coreService, localStorageService){
+app.controller("BookCtrl", function($scope, coreService){
 	var pathname = window.location.pathname.split("/");
 	var id = pathname[pathname.length-1];
 
@@ -14,9 +14,9 @@ app.controller("BookCtrl", function($scope, coreService, localStorageService){
 	};
 
 	function getList(){
-		coreService.getList(localStorageService.get("user")).then(function(response) {
-        	if(localStorageService.get("user") === null)
-        		localStorageService.set("user", response.id);
+		coreService.getList(coreService.getUser()).then(function(response) {
+        	if(coreService.getUser() === null || coreService.getUser() === undefined)
+        		coreService.setUser(response.id);
 			$scope.list = response;
 			$scope.buttons = {};
     	});
@@ -51,7 +51,7 @@ app.controller("BookCtrl", function($scope, coreService, localStorageService){
 	$scope.addBook = function(book){
 		// $scope.buttons[book] = true;
 		var list = {};
-		list.id = localStorageService.get("user");
+		list.id = coreService.getUser();
 		list.book = book;
 		coreService.addBook(list).then(function(response){
 			$scope.buttons[book] = false;
@@ -65,7 +65,7 @@ app.controller("BookCtrl", function($scope, coreService, localStorageService){
 	$scope.removeBook = function(book){
 		$scope.buttons[book] = false;
 		var list = {};
-		list.id = localStorageService.get("user");
+		list.id = coreService.getUser();
 		list.book = book;
 		coreService.removeBook(list).then(function(response){
 			$scope.buttons[book] = true;
