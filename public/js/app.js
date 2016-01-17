@@ -1,4 +1,4 @@
-var app = angular.module("app", ["ngRoute", "ngCookies", "pageslide-directive"]);
+var app = angular.module("app", ["ngRoute", "ngCookies", "pageslide-directive", "LocalStorageModule"]);
 
 function isMobile(){
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {

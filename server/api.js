@@ -114,7 +114,7 @@ var mongojs 	 = require("mongojs"),
 		console.log(id);
 		var lists = {};
 		var result = {};
-		if(id == undefined || id == "undefined"){
+		if(id === null || id === "null" || id == undefined || id == "undefined"){
 			db.users.insert({"books": {}}, function(err, doc){
 				lists.id = doc._id;
 				res.json(lists);
