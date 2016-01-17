@@ -1,6 +1,7 @@
 module.exports = function(app) {
 
 var mongojs 	 = require("mongojs"),
+	shuffle 	 = require('knuth-shuffle').knuthShuffle;
 	request 	 = require("request"),
 	moment		 = require("moment"),
     // db 			 = mongojs('googlebooks', ['books', 'users', 'comments']);
@@ -159,7 +160,7 @@ var mongojs 	 = require("mongojs"),
 						}						
 					}
 				}
-				res.json(popular);
+				res.json(shuffle(popular));
 			}
 		});
 	});

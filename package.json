@@ -15,6 +15,7 @@
     "http-signature": "^0.10.1",
     "isstream": "^0.1.2",
     "json-stringify-safe": "^5.0.0",
+    "knuth-shuffle": "^1.0.1",
     "mime-types": "^2.0.10",
     "moment": "^2.11.0",
     "mongojs": "^0.18.2",
