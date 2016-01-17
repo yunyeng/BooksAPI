@@ -17,6 +17,34 @@
   </head>
   <body>
 
+    <button class="btn btn-default btn-sm left-close" ng-click="openLeft()">
+        <i title="Open Books List" ng-hide="leftPane" class="fa fa-bars fa-2x"></i>
+        <i title="Close Books List" ng-show="leftPane" class="fa fa-close fa-2x"></i>
+    </button>
+    <pageslide ps-class="left-pane" ps-open="leftPane" ps-side="left" ps-push="true" ps-size="320px" ps-speed="0.4">
+        <div id="left-pane-wrapper">
+          <h3>Your Reading List</h3>
+            <p ng-show="isEmpty(list.books)"><em>You have no books in your list right now.</em></p>
+            <ul class="list-unstyled">
+              <li ng-repeat="book in list.books | orderByTime:'time'">
+              <button ng-click="removeBook(book.id)" class="btn btn-success btn-xs pull-left remove-book-button" type="button" title="Remove from the list">
+                    <i class="fa fa-check"></i>
+                  </button> 
+                <div class="media-left" ng-show="{{book.imageLinks}}">
+                  <a href="/book/{{ book.id }}" title="{{book.title}}"><img width="64px" src="{{book.imageLinks.smallThumbnail}}" alt="{{book.title}}"></a>
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading pull-left"><a href="/book/{{ book.id }}" title="{{book.title}}">{{book.title}}</a> </h4>
+                  <p class="pull-left">&nbsp;by<p ng-show="{{book.authors}}" ng-repeat="author in book.authors" class="pull-left">&nbsp;{{author}}{{$last ? '' : ', '}}</p></p>
+                  <br /><br /><br />
+                  <p class="pull-left" ng-show="book.categories[0]"><span ng-repeat="category in book.categories"><em> {{category}}{{$last ? '' : ' | '}} </em></span></p>
+                </div>
+                <hr />
+              </li>
+            </ul>
+        </div>
+    </pageslide>
+
     <div id="wrapper">
       <div class="logo">
         <a href="/" title="Homepage"><img src="/images/logo.png" alt="Logo"></a>
@@ -37,13 +65,12 @@
           <h4>Writers: <span ng-show="{{book.volumeInfo.authors}}" ng-repeat="author in book.volumeInfo.authors">&nbsp;{{author}}{{$last ? '' : ', '}}</span></h4>
           <p><strong>Published in:</strong> {{book.volumeInfo.publishedDate | date}}</p>
           <p><strong>Published by:</strong> {{book.volumeInfo.publisher }}</p>
-          <p>{{ book.volumeInfo.pageCount }} pages</p>
           <img ng-click="preview()" class="pull-left single-book-image" src="{{book.volumeInfo.imageLinks.smallThumbnail}}" alt="{{book.volumeInfo.title}}" width="135px">
           <p>{{book.volumeInfo.description}}</p>
         </div>
 
         <div class="book-bottom-section">
-          <p><strong>Languages:</strong> {{book.volumeInfo.language}}</p>
+          <p>{{ book.volumeInfo.pageCount }} pages, <strong>Languages:</strong> {{book.volumeInfo.language}}</p>
           <div ng-show="book.searchInfo.textSnippet" class="well">
             <p>{{book.searchInfo.textSnippet}}</p>
           </div>
@@ -94,6 +121,7 @@
     <script src="/js/angular.min.js"></script>
     <script src="/js/angular-cookies.min.js"></script>
     <script src="/js/angular-route.min.js"></script>
+    
     <script src="/js/moment.js"></script>
     <script src="/js/angular-pageslide-directive.js"></script>
     <!-- Angular Cores End -->

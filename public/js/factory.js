@@ -1,5 +1,16 @@
-app.factory('httpService', function($http) {
+app.factory('coreService', function($http, $cookies) {
   return {
+    getUser: function(){
+      return $cookies.get("user");
+    },
+    setUser: function(value, expiration){
+      if(time === undefined){
+        var now = new Date();
+        now.setDate(now.getDate() + 365);
+        expiration = now;
+      }
+      $cookies.put("user", value, { expires: expiration });
+    },
     search: function(query){
       var url = '/api/search/' + query;
       return $http.get(url).then(function(result) {

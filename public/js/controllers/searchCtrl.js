@@ -1,4 +1,4 @@
-app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($scope, $cookies, httpService){
+app.controller("SearchCtrl", function($scope, coreService){
 
 	$scope.leftPane = false;
 	$scope.searched = true;
@@ -21,7 +21,7 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 		$scope.showPopular = false;
 		$scope.books = [];
 		$scope.searched = false;
-		httpService.search($scope.book.name).then(function(response){
+		coreService.search($scope.book.name).then(function(response){
 			$scope.books = response.items;
 			$scope.searched = true;
 			history.pushState({}, "book", "?q="+$scope.book.name);
@@ -29,13 +29,10 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 		});
 	};
 
-	function getList(){		
-		var now = new Date();
-		now.setDate(now.getDate() + 365);
-		httpService.getList($cookies.get("user")).then(function(response) {
-        	if($cookies.get("user") === undefined){
-        		$cookies.put("user", response.id, { expires: now });
-        	}
+	function getList(){
+		coreService.getList(coreService.getUser()).then(function(response) {
+        	if(coreService.getUser() === undefined)
+        		coreService.setUser(response.id);
 			$scope.list = response;
 			$scope.buttons = {};
     	});
@@ -43,7 +40,7 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 	getList();
 
 	function getPopular(){
-		httpService.getPopular().then(function(response) {
+		coreService.getPopular().then(function(response) {
 			$scope.popularBooks = response;
 			$scope.showPopular = true;
     	});
@@ -69,9 +66,9 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 	$scope.addBook = function(book){
 		// $scope.buttons[book] = true;
 		var list = {};
-		list.id = $cookies.get("user");
+		list.id = coreService.getUser();
 		list.book = book;
-		httpService.addBook(list).then(function(response){
+		coreService.addBook(list).then(function(response){
 			$scope.buttons[book] = false;
 			getList();
 			$(".left-close").addClass("btn-success").delay(200).queue(function(){
@@ -83,9 +80,9 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 	$scope.removeBook = function(book){
 		$scope.buttons[book] = false;
 		var list = {};
-		list.id = $cookies.get("user");
+		list.id = coreService.getUser();
 		list.book = book;
-		httpService.removeBook(list).then(function(response){
+		coreService.removeBook(list).then(function(response){
 			$scope.buttons[book] = true;
 			getList();
 			$(".left-close").addClass("btn-warning").delay(200).queue(function(){
@@ -99,4 +96,4 @@ app.controller("SearchCtrl", ["$scope", "$cookies", "httpService", function($sco
 	    return true;
 	};
 
-}]);
+});

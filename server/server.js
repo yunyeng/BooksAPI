@@ -1,6 +1,5 @@
 var express 	= require("express"),
 	path 		= require('path'),
-	analyze 	= require("./modules/analyze"),
 	port 		= process.env.PORT || 8080,
 	app 		= express(),
 	bodyParser 	= require("body-parser");

@@ -132,8 +132,8 @@ var mongojs 	 = require("mongojs"),
 					}
 					res.json(result);
 				} else {
-					db.users.insert({"_id": mongojs.ObjectId(id), "books": {}}, function(err, doc){
-						lists.id = doc._id;
+					db.users.insert({"_id": mongojs.ObjectId(id), "books": {}}, function(err2, doc2){
+						lists.id = doc2._id;
 						res.json(lists);
 					});
 				}

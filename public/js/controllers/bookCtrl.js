@@ -1,14 +1,22 @@
-app.controller("BookCtrl", function($scope, $cookies, httpService){
+app.controller("BookCtrl", function($scope, coreService){
 	var pathname = window.location.pathname.split("/");
 	var id = pathname[pathname.length-1];
 
-	function getList(){		
-		var now = new Date();
-		now.setDate(now.getDate() + 365);
-		httpService.getList($cookies.get("user")).then(function(response) {
-        	if($cookies.get("user") === undefined){
-        		$cookies.put("user", response.id, { expires: now });
-        	}
+	$scope.leftPane = false;
+	$scope.openLeft = function(){
+		if($scope.leftPane){
+			$scope.leftPane = false;
+			$(".left-close").animate({"margin-left":"8px"});
+		} else{
+			$scope.leftPane = true;
+			$(".left-close").animate({"margin-left":"332px"});
+		}
+	};
+
+	function getList(){
+		coreService.getList(coreService.getUser()).then(function(response) {
+        	if(coreService.getUser() === undefined)
+        		coreService.setUser(response.id);
 			$scope.list = response;
 			$scope.buttons = {};
     	});
@@ -22,8 +30,7 @@ app.controller("BookCtrl", function($scope, $cookies, httpService){
 	// TODO tweet button brings tweets that belong to book one before !!!
 	$scope.getTweets = function(name){
 		//if($scope.books[index].tweets === undefined || $scope.books[index].tweets.length === 0){
-			httpService.getTweets(name).then(function(response){
-				console.log(response);
+			coreService.getTweets(name).then(function(response){
 				$scope.book.tweets = response;
 			});
 		//}
@@ -34,8 +41,7 @@ app.controller("BookCtrl", function($scope, $cookies, httpService){
 	};
 
 	$scope.search = function(id){
-		httpService.getBook(id).then(function(response){
-			console.log(response);
+		coreService.getBook(id).then(function(response){
 			if(response.content)	$scope.book = response.content;
 			else	$scope.book = response;
 		});
@@ -45,9 +51,9 @@ app.controller("BookCtrl", function($scope, $cookies, httpService){
 	$scope.addBook = function(book){
 		// $scope.buttons[book] = true;
 		var list = {};
-		list.id = $cookies.get("user");
+		list.id = coreService.getUser();
 		list.book = book;
-		httpService.addBook(list).then(function(response){
+		coreService.addBook(list).then(function(response){
 			$scope.buttons[book] = false;
 			getList();
 			$(".left-close").addClass("btn-success").delay(200).queue(function(){
@@ -59,9 +65,9 @@ app.controller("BookCtrl", function($scope, $cookies, httpService){
 	$scope.removeBook = function(book){
 		$scope.buttons[book] = false;
 		var list = {};
-		list.id = $cookies.get("user");
+		list.id = coreService.getUser();
 		list.book = book;
-		httpService.removeBook(list).then(function(response){
+		coreService.removeBook(list).then(function(response){
 			$scope.buttons[book] = true;
 			getList();
 			$(".left-close").addClass("btn-warning").delay(200).queue(function(){
