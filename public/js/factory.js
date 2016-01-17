@@ -4,7 +4,7 @@ app.factory('coreService', function($http, $cookies) {
       return $cookies.get("user");
     },
     setUser: function(value, expiration){
-      if(time === undefined){
+      if(expiration === undefined){
         var now = new Date();
         now.setDate(now.getDate() + 365);
         expiration = now;
@@ -32,7 +32,6 @@ app.factory('coreService', function($http, $cookies) {
     addBook: function(list) {
       var url = '/api/list/add/';
       return $http.post(url, list).then(function(result) {
-        console.log(result.data);
         return result.data;
       });
     },

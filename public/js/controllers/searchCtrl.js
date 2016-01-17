@@ -29,6 +29,24 @@ app.controller("SearchCtrl", function($scope, coreService){
 		});
 	};
 
+	function getPopular(){
+		coreService.getPopular().then(function(response) {
+			$scope.popularBooks = response;
+			$scope.showPopular = true;
+    	});
+	}
+
+	function firstLoad(){
+		var query = getParameterByName("q");
+		if(query.length > 0){
+			$scope.book.name = query;
+			$scope.search();
+		} else {
+			getPopular();
+		}
+	}
+	firstLoad();
+
 	function getList(){
 		coreService.getList(coreService.getUser()).then(function(response) {
         	if(coreService.getUser() === undefined)
@@ -39,29 +57,12 @@ app.controller("SearchCtrl", function($scope, coreService){
 	}
 	getList();
 
-	function getPopular(){
-		coreService.getPopular().then(function(response) {
-			$scope.popularBooks = response;
-			$scope.showPopular = true;
-    	});
-	}
-	getPopular();
-
 	function getParameterByName(name) {
 	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
 	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
 	        results = regex.exec(location.search);
 	    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 	}
-
-	function firstLoad(){
-		var query = getParameterByName("q");
-		if(query.length > 0){
-			$scope.book.name = query;
-			$scope.search();
-		}
-	}
-	firstLoad();
 	
 	$scope.addBook = function(book){
 		// $scope.buttons[book] = true;

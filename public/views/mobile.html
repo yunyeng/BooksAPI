@@ -9,17 +9,120 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
     <link href="/css/font-awesome.css" rel="stylesheet">
-    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/mobile.css" rel="stylesheet">
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
+  <body ng-controller="SearchCtrl" ng-cloak>
+  
+    <button ng-hide="leftPane" class="btn btn-default btn-sm mobile-left-open" ng-click="openLeft()">
+        <i title="Open Books List" class="fa fa-bars fa-2x"></i>
+    </button>
+    <pageslide ps-class="left-pane" ps-open="leftPane" ps-side="left" ps-push="true" ps-speed="0.4">
+        
+        <button ng-show="leftPane" class="btn btn-default btn-sm mobile-left-close" ng-click="openLeft()">
+          <i title="Close Books List" class="fa fa-close fa-2x"></i>
+        </button>
+        <div id="left-pane-wrapper">
+          <h3>Your Reading List</h3>
+            <p ng-show="isEmpty(list.books)"><em>You have no books in your list right now.</em></p>
+            <ul class="list-unstyled">
+              <li ng-repeat="book in list.books | orderByTime:'time'">
+              <button ng-click="removeBook(book.id)" class="btn btn-success btn-xs pull-left remove-book-button" type="button" title="Remove from the list">
+                    <i class="fa fa-check"></i>
+                  </button> 
+                <div class="media-left" ng-show="{{book.imageLinks}}">
+                  <a href="/book/{{ book.id }}" title="{{book.title}}"><img width="32px" src="{{book.imageLinks.smallThumbnail}}" alt="{{book.title}}"></a>
+                </div>
+                <div class="media-body">
+                  <h4 class="media-heading pull-left"><a href="/book/{{ book.id }}" title="{{book.title}}">{{book.title}}</a> </h4>
+                  <p class="pull-left">&nbsp;by<p ng-show="{{book.authors}}" ng-repeat="author in book.authors" class="pull-left">&nbsp;{{author}}{{$last ? '' : ', '}}</p></p>
+                  <br /><br /><br />
+                  <p class="pull-left" ng-show="book.categories[0]"><span ng-repeat="category in book.categories"><em> {{category}}{{$last ? '' : ' | '}} </em></span></p>
+                </div>
+                <hr />
+              </li>
+            </ul>
+        </div>
+    </pageslide>
 
     <div id="wrapper">
-      
+
+      <div class="logo">
+        <a href="/mobile" title="Homepage"><img src="/images/logo.png" alt="Logo"></a>
+      </div>
+      <form id="search" ng-submit="search()">
+        <div class="input-group-lg">
+          <input autofocus type="text" name="q" class="form-control search-box" autocomplete placeholder="Type a keyword and enter" aria-describedby="sizing-addon1" ng-model="book.name">
+        </div>
+      </form>
+    
+      <div id="output">
+        <div class="search-spinner" ng-hide="books.length || searched">
+          <i class="fa fa-spinner fa-4x fa-pulse"></i>
+          <!-- <p>Searching...</p> -->
+        </div>
+
+        <div ng-show="showPopular && popularBooks.length" class="popular-books">
+          <!-- <h3>This Month Popular</h3> -->
+          <ul class="list-unstyled popular-books">
+            <li ng-repeat="book in popularBooks">
+              <a href="/book/{{ book.id }}" title="{{book.title}}">
+              <img width="64px" src="{{book.imageLinks.smallThumbnail}}" alt="{{book.title}}">
+              <p>{{book.title}}</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="media" ng-repeat="book in books">
+
+          <button ng-hide="buttons[book.id] || list.books[book.id]" ng-click="addBook(book.id)" class="btn btn-default pull-left add-book-button" type="button" title="Add to the list">
+            <i class="fa fa-plus"></i>
+          </button>
+
+          <button ng-show="buttons[book.id] || list.books[book.id]" ng-click="removeBook(book.id)" class="btn btn-success pull-left remove-book-button" type="button" title="Added to the list">
+            <i class="fa fa-check-circle"></i>
+          </button>
+
+          <div class="media-left" ng-show="{{book.volumeInfo.imageLinks}}">
+            <a href="/book/{{ book.id }}" title="{{book.volumeInfo.title}}"><img class="media-object" src="{{book.volumeInfo.imageLinks.smallThumbnail}}" alt="{{book.volumeInfo.title}}"></a>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading pull-left"><a href="/book/{{ book.id }}" title="{{book.volumeInfo.title}}">{{book.volumeInfo.title}}</a> </h4>
+            <p class="pull-left">&nbsp;by<p ng-show="{{book.volumeInfo.authors}}" ng-repeat="author in book.volumeInfo.authors" class="pull-left">&nbsp;{{author}}{{$last ? '' : ', '}}</p></p>
+            <br />
+            <p ng-show="book.volumeInfo.categories[0]"><strong>Category:</strong><span ng-repeat="category in book.volumeInfo.categories"> {{category}}{{$last ? '' : ' | '}}</span></p>
+            <h5 class="media-heading">{{book.volumeInfo.subtitle}}</h5>
+            <br />
+            <p ng-show="{{book.volumeInfo.publishedDate}}"><strong>Published in:</strong> {{book.volumeInfo.publishedDate | date}}</p>
+
+            <br /><br />
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- <div id="footer">
+      <a href="http://github.com/yunyeng" title="YunYeng">yunyeng</a>
+    </div> -->
+
+    <!-- Angular Cores Begin -->
+    <script src="./js/jquery-1.12.0.min.js"></script>
+    <script src="./js/angular.min.js"></script>
+    <script src="./js/angular-cookies.min.js"></script>
+    <script src="./js/angular-route.min.js"></script>
+
+    <script src="./js/moment.js"></script>
+    <script src="./js/angular-pageslide-directive.js"></script>
+    <!-- Angular Cores End -->
+    <script src="./js/app.js"></script>
+    <script src="./js/factory.js"></script>
+    <!-- Controllers Begin -->
+    <script src="./js/controllers/searchCtrl.js"></script>
+    <script src="./js/controllers/bookCtrl.js"></script>
+    <!-- Controllers End -->
   </body>
 </html>
