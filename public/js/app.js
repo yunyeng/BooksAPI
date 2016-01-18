@@ -1,5 +1,11 @@
 var app = angular.module("app", ["ngRoute", "ngCookies", "pageslide-directive", "LocalStorageModule"]);
 
+app.config(function (localStorageServiceProvider) { 
+
+	localStorageServiceProvider.setStorageCookie(0, '/');
+	
+});
+
 function isMobile(){
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 	 window.location = "http://m.dopebooks.com/";

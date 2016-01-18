@@ -27,15 +27,6 @@ app.controller("BookCtrl", function($scope, coreService){
 		return new Array(Math.floor(n));
 	};
 
-	// TODO tweet button brings tweets that belong to book one before !!!
-	$scope.getTweets = function(name){
-		//if($scope.books[index].tweets === undefined || $scope.books[index].tweets.length === 0){
-			coreService.getTweets(name).then(function(response){
-				$scope.book.tweets = response;
-			});
-		//}
-	};
-
 	$scope.preview = function(){
 		window.open($scope.book.volumeInfo.previewLink,'winname','directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no,width=1000,height=860');
 	};
@@ -44,6 +35,7 @@ app.controller("BookCtrl", function($scope, coreService){
 		coreService.getBook(id).then(function(response){
 			if(response.content)	$scope.book = response.content;
 			else	$scope.book = response;
+			getTweets();
 		});
 	};
 	$scope.search(id);
@@ -76,6 +68,12 @@ app.controller("BookCtrl", function($scope, coreService){
 		});
 	};
 
+	// TODO tweet button brings tweets that belong to book one before !!!
+	function getTweets(){
+		coreService.getTweets($scope.book.volumeInfo.title).then(function(response){
+			$scope.book.tweets = response;
+		});
+	};
 
 
 });

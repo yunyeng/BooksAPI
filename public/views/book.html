@@ -75,14 +75,15 @@
             <p>{{book.searchInfo.textSnippet}}</p>
           </div>
 
-          <button class="btn btn-info" ng-click="getTweets(book.volumeInfo.title)" title="Click Again to refresh tweets"><i class="icon-white icon-headphones"></i> Reviews</button>
           <a href="http://www.amazon.com/gp/search/ref=sr_adv_b/?search-alias=stripbooks&unfiltered=1&field-isbn={{book.volumeInfo.industryIdentifiers[0].identifier}}&sort=relevanceexprank&Adv-Srch-Books-Submit.x=46&Adv-Srch-Books-Submit.y=21" title="" target="_blank">
             <button type="button" class="btn btn-warning">Go Amazon</button>
           </a>
           <button type="button" ng-click="preview()" class="btn btn-success">Preview</button>
+          <br /><br /><br />
           <ul class="list-unstyled">
             <li ng-repeat="tweet in book.tweets"><p><strong><a href="https://www.twitter.com/{{tweet.user.screen_name}}/status/{{tweet.id_str}}" target="_blank" title="{{tweet.user.screen_name}}"><img src="/images/tweet.png" alt="Tweet" width="18px" class="pull-left"> &nbsp;{{tweet.user.screen_name}}</a></strong> {{tweet.text}}</p></li>
           </ul>
+          <br />
         </div>
 
         <div id="commentArea" ng-controller="CommentCtrl">
