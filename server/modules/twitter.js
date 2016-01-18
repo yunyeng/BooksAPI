@@ -14,12 +14,22 @@ module.exports = function(app){
 	  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 	});
 
-	var tweet = "";
-	app.get('/tweets', function(req, res){
+	var twts = [];
+	var uniqTweet = {};
+	app.get('/tweets', function(req, res){		
 		client.get('search/tweets', {q: encodeURIComponent(req.query.q)}, function(error, tweets, response){
-			if(tweets.statuses != undefined) tweet = (shuffle(tweets.statuses)).slice(0, 5);
+			if(tweets.statuses != undefined){
+				twts = [];
+				uniqTweet = {};
+				for(var i=0;twts.length < 5 && i<tweets.statuses.length; i++){
+					if(uniqTweet[tweets.statuses[i].id] === undefined){
+						twts[twts.length] = tweets.statuses[i];
+						uniqTweet[tweets.statuses[i].id] = true;
+					}
+				}
+			}
 	    });
-	    res.json(tweet);
+	    res.json(shuffle(twts));
 	});
 
 	/*
