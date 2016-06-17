@@ -1,6 +1,6 @@
 var express 	= require("express"),
 	path 		= require('path'),
-	port 		= Number(process.env.PORT || 8080),
+	port 		= process.env.PORT,
 	app 		= express(),
 	bodyParser 	= require("body-parser");
 	
@@ -13,7 +13,7 @@ function start(){
 
 	// Run the Server
 	app.listen(port, function() {
-	    console.log('Server listening on port: ' + Number(process.env.PORT || 8080));
+	    console.log('Server listening on port: ' + port);
 	});
 
 	var folder = __dirname + '../../public';
