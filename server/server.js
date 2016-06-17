@@ -17,6 +17,9 @@ function start(){
 	// app.listen(port, function() {
 	//     console.log('Server listening on port: ' + port);
 	// });
+	app.listen(app.get('port'), function() {
+        console.log('Node app is running on port', app.get('port'));
+    });
 
 	var folder = __dirname + '../../public';
 	app.use("/", express.static(folder));
@@ -37,10 +40,6 @@ function start(){
 	  }
 	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 	}
-
-	app.listen(app.get('port'), function() {
-        console.log('Node app is running on port', app.get('port'));
-    });
 
 	//function(req, res){var ip = req.header('x-forwarded-for') || req.connection.remoteAddress;console.log(res);}
 
