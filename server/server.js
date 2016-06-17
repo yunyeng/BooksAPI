@@ -13,7 +13,7 @@ function start(){
 
 	// Run the Server
 	app.listen(port, function() {
-	    console.log('Server listening on port: ' + port);
+	    console.log('Server listening on port: ' + Number(process.env.PORT || 8080));
 	});
 
 	var folder = __dirname + '../../public';
