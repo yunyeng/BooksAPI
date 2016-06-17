@@ -2,10 +2,7 @@
   "name": "googlebooks",
   "version": "0.0.1",
   "dependencies": {
-    "amazon-book-search": "0.0.10",
     "angular-local-storage": "^0.2.2",
-    "aws-sign2": "^0.5.0",
-    "bl": "^0.9.4",
     "body-parser": "^1.12.2",
     "caseless": "^0.10.0",
     "combined-stream": "0.0.7",
@@ -21,12 +18,10 @@
     "moment": "^2.11.0",
     "mongojs": "^0.18.2",
     "node-uuid": "^1.4.3",
-    "oauth-sign": "^0.7.0",
     "path": "^0.11.14",
     "request": "^2.55.0",
     "stringstream": "0.0.4",
     "tough-cookie": "^0.12.1",
-    "tunnel-agent": "^0.4.0",
     "twitter": "^1.2.5",
     "util": "^0.10.3"
   }
