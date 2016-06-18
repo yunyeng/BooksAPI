@@ -14,6 +14,10 @@ function start(){
 	var folder = __dirname + '../../public';
 	app.use("/", express.static(folder));
 
+	app.get('/', function(req,res){
+	 res.sendFile(path.resolve(folder + '/index.html'));
+	});
+
 	app.get('/book/*', function(req,res){
 	 res.sendFile(path.resolve(folder + '/views/book.html'));
 	});
