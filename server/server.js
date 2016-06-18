@@ -12,7 +12,7 @@ var twitter 	= require("./modules/twitter")(app),
 function start(){
 
 	var folder = __dirname + '../../public';
-	app.use("/", express.static(folder));
+	// app.use("/", express.static(folder));
 
 	app.get('/', function(req,res){
 	res.send('hello world');
