@@ -15,7 +15,8 @@ function start(){
 	app.use("/", express.static(folder));
 
 	app.get('/', function(req,res){
-	 res.sendFile(path.resolve(folder + '/index.html'));
+	res.send('hello world');
+	 // res.sendFile(path.resolve(folder + '/index.html'));
 	});
 
 	app.get('/book/*', function(req,res){
