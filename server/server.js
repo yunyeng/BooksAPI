@@ -11,21 +11,14 @@ var twitter 	= require("./modules/twitter")(app),
 
 function start(){
 
-	// var folder = __dirname + '../../public';
 	app.use('/', express.static('public'));
-	// app.use("/", express.static(__dirname));
-
-	// app.get('/', function(req,res){
-	// // res.send('hello world');
-	//  res.sendFile(path.resolve(folder + '/index.html'));
-	// });
 
 	app.get('/book/*', function(req,res){
-	 res.sendFile(path.resolve(folder + '/views/book.html'));
+	 res.sendFile(path.resolve('public/views/book.html'));
 	});
 
 	app.get('/mobile', function(req,res){
-	 res.sendFile(path.resolve(folder + '/views/mobile.html'));
+	 res.sendFile(path.resolve('public/views/mobile.html'));
 	});
 
 	function guid() {
