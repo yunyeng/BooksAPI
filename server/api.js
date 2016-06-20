@@ -5,7 +5,7 @@ var mongojs 	 = require("mongojs"),
 	request 	 = require("request"),
 	moment		 = require("moment"),
     // db 			 = mongojs('googlebooks', ['books', 'users', 'comments']);
-	db 			 = mongojs('mongodb://yunyeng:murat131@ds045795.mongolab.com:45795/heroku_3r8s4727', ['books', 'users', 'comments']);
+	db 			 = mongojs('mongodb://yunyeng:murat131@ds045795.mongolab.com:45795/heroku_3r8s4727', ['books', 'users', 'comments', 'searches']);
 
 ////////////// API Starts //////////////////
 /*
@@ -167,7 +167,7 @@ var mongojs 	 = require("mongojs"),
 
 	// Core Search API
 	app.get("/api/search/:q", function(req, res){
-		var query 	= (req.params.q).toLowerCase();
+		var query 	= (req.params.q).toLowerCase().trim();
 			// page	= 1;
 		if(query === undefined || query === "" || query.length < 1)
 			return false;
@@ -198,6 +198,9 @@ var mongojs 	 = require("mongojs"),
 				})
 			}
 		});
+
+		db.searches.update({"keyword": query}, {'$inc':{"freq":1}}, {'upsert':true});
+
 	});
 
 }
